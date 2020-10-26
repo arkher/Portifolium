@@ -1,7 +1,11 @@
 package com.ufma.portifolium.model;
 
+import java.util.Optional;
+
 import com.ufma.portifolium.entities.Professor;
 import com.ufma.portifolium.repository.ProfessorRepository;
+import com.ufma.portifolium.utils.ProfessorFactory;
+import com.ufma.portifolium.utils.Utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,18 +22,27 @@ public class ProfessorRepositoryTest {
 
     @Test
     public void deveSalvarProfessor(){
-        //cenario
-        Professor professor = Professor.builder().nome("Testador")
-                                    .codigo("01234567")
-                                    .build();
+        Professor professor = ProfessorFactory.buildProfessor();
 
-        //acao
         Professor salvo = repository.save(professor);
 
-        //verificação
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
         Assertions.assertEquals(professor.getNome(), salvo.getNome());
         Assertions.assertEquals(professor.getCodigo(), salvo.getCodigo());
+        Assertions.assertTrue(Utils.isNumeric(salvo.getCodigo()));
+
+    }
+
+    @Test
+    public void deveRemoverProfessor() {
+        Professor professor = ProfessorFactory.buildProfessor();
+        
+        Professor salvo = repository.save(professor);
+        Long id = salvo.getId();
+        repository.deleteById(id);
+
+        Optional<Professor> temp = repository.findById(id);
+        Assertions.assertFalse(temp.isPresent());
     }
 }

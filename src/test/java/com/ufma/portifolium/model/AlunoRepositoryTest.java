@@ -1,5 +1,7 @@
 package com.ufma.portifolium.model;
 
+import java.util.Optional;
+
 import com.ufma.portifolium.entities.Aluno;
 import com.ufma.portifolium.repository.AlunoRepository;
 
@@ -11,6 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.ufma.portifolium.utils.AlunoFactory;
+import com.ufma.portifolium.utils.Utils;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
@@ -19,21 +24,27 @@ public class AlunoRepositoryTest {
     AlunoRepository repository;
 
     @Test
-    public void deveSalvarAluno(){
-        //cenario
-        Aluno aluno = Aluno.builder().nome("Testador")
-                                    .matricula("01234567")
-                                    .build();
+    public void deveSalvarAluno() {
+        Aluno aluno = AlunoFactory.buildALuno();
 
-        //acao
         Aluno salvo = repository.save(aluno);
 
-        //verificação
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
         Assertions.assertEquals(aluno.getNome(), salvo.getNome());
         Assertions.assertEquals(aluno.getMatricula(), salvo.getMatricula());
+        Assertions.assertTrue(Utils.isNumeric(salvo.getMatricula()));
     }
 
-    // adicionar teste de remoção
+    @Test
+    public void deveRemoverAluno() {
+        Aluno aluno = AlunoFactory.buildALuno();
+
+        Aluno salvo = repository.save(aluno);
+        Long id = salvo.getId();
+        repository.deleteById(id);
+
+        Optional<Aluno> temp = repository.findById(id);
+        Assertions.assertFalse(temp.isPresent());
+    }
 }
