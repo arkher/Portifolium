@@ -26,7 +26,7 @@ public class Professor {
     private Long id;
 
     @Column(name="codigo")
-    private String matricula;
+    private String codigo;
 
     @Column(name="nome")
     private String nome;

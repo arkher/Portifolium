@@ -25,11 +25,11 @@ public class ProjetoTecnologia {
     @Column(name="id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_projeto")
     private Projeto projeto;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_tecnologia")
     private Tecnologia tecnologia;
 

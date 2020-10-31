@@ -29,7 +29,7 @@ public class Projeto {
     @Column(name="id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_aluno")
     private Aluno aluno;
 
