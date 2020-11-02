@@ -29,7 +29,7 @@ public class Usuario {
     @Column(name="id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_tipo")
     private TipoUsuario tipoUsuario;
 
