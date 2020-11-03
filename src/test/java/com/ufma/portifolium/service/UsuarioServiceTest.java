@@ -115,9 +115,10 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
 
         Usuario salvo = usuarioRepository.save(usuario);
+        String codigo = salvo.getCodigoAcesso();
 
         Assertions.assertThrows(AutenticacaoException.class, 
-                                () -> usuarioService.efetuarLogin(salvo.getCodigoAcesso(), "0000000"),
+                                () -> usuarioService.efetuarLogin(codigo, "0000000"),
                                 "Erro de Autenticação. Senha incorreta.");
 
         usuarioRepository.delete(salvo);
