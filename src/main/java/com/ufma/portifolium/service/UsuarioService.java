@@ -63,4 +63,14 @@ public class UsuarioService {
         if(usuarioJaCadastrado) throw new CadastroException("Um usuário com este código de acesso já foi cadastrado");
     }
 
+    public void remover(Usuario usuario){
+        verificarUsuario(usuario);
+        usuarioRepository.delete(usuario);
+    }
+
+    public void remover(Long id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if(usuario.isPresent()) remover(usuario.get());
+    }
+
 }
