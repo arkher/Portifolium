@@ -63,7 +63,7 @@ public class ProfessorService {
         professorRepository.delete(professor);
     }
 
-    public void removerPorId(Long id){
+    public void remover(Long id){
         Optional<Professor> professor = professorRepository.findById(id);
         if(professor.isPresent()) remover(professor.get());
     }

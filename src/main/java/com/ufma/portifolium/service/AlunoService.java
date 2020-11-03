@@ -63,7 +63,7 @@ public class AlunoService {
         alunoRepository.delete(aluno);
     }
 
-    public void removerPorId(Long id){
+    public void remover(Long id){
         Optional<Aluno> aluno = alunoRepository.findById(id);
         if(aluno.isPresent()) remover(aluno.get());
     }
