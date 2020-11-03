@@ -1,16 +1,9 @@
 package com.ufma.portifolium.service;
 
-import java.time.LocalDate;
-
-import com.ufma.portifolium.entities.Aluno;
-import com.ufma.portifolium.entities.Professor;
-import com.ufma.portifolium.entities.TipoUsuario;
 import com.ufma.portifolium.entities.Usuario;
-import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.service.exceptions.AutenticacaoException;
 import com.ufma.portifolium.service.exceptions.CadastroException;
-import com.ufma.portifolium.utils.AlunoFactory;
 import com.ufma.portifolium.utils.UsuarioFactory;
 
 import org.junit.jupiter.api.Assertions;
