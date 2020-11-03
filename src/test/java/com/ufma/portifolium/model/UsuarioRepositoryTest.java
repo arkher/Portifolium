@@ -30,6 +30,7 @@ public class UsuarioRepositoryTest {
         Assertions.assertNotNull(salvo);
         Assertions.assertEquals(usuario, salvo);
         Assertions.assertNotNull(salvo.getId());
+        repository.delete(salvo);
     }
 
     @Test

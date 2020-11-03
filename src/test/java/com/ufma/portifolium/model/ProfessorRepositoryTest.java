@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.ufma.portifolium.entities.Professor;
 import com.ufma.portifolium.repository.ProfessorRepository;
 import com.ufma.portifolium.utils.ProfessorFactory;
-import com.ufma.portifolium.utils.Utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,7 @@ public class ProfessorRepositoryTest {
         Assertions.assertNotNull(salvo.getId());
         Assertions.assertEquals(professor.getNome(), salvo.getNome());
         Assertions.assertEquals(professor.getCodigo(), salvo.getCodigo());
-        Assertions.assertTrue(Utils.isNumeric(salvo.getCodigo()));
-
+        repository.delete(salvo);
     }
 
     @Test

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.ufma.portifolium.entities.Aluno;
 import com.ufma.portifolium.repository.AlunoRepository;
+import com.ufma.portifolium.utils.AlunoFactory;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.ufma.portifolium.utils.AlunoFactory;
-import com.ufma.portifolium.utils.Utils;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -33,7 +31,7 @@ public class AlunoRepositoryTest {
         Assertions.assertNotNull(salvo.getId());
         Assertions.assertEquals(aluno.getNome(), salvo.getNome());
         Assertions.assertEquals(aluno.getMatricula(), salvo.getMatricula());
-        Assertions.assertTrue(Utils.isNumeric(salvo.getMatricula()));
+        repository.delete(salvo);
     }
 
     @Test

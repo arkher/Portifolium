@@ -39,6 +39,7 @@ public class ProjetoTecnologiaRepositoryTest {
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
         Assertions.assertEquals(projetoTecnologia, salvo);
+        repository.delete(salvo);
     }
 
     @Test

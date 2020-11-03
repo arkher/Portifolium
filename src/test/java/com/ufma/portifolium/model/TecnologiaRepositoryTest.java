@@ -30,6 +30,7 @@ public class TecnologiaRepositoryTest {
         Assertions.assertNotNull(salvo);
         Assertions.assertEquals(tecnologia, salvo);
         Assertions.assertNotNull(salvo.getId());
+        repository.delete(salvo);
     }
 
     @Test
