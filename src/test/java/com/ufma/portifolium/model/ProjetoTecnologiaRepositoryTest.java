@@ -2,9 +2,9 @@ package com.ufma.portifolium.model;
 
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.Projeto;
-import com.ufma.portifolium.entities.ProjetoTecnologia;
-import com.ufma.portifolium.entities.Tecnologia;
+import com.ufma.portifolium.model.entities.Projeto;
+import com.ufma.portifolium.model.entities.ProjetoTecnologia;
+import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.repository.ProjetoTecnologiaRepository;
 import com.ufma.portifolium.utils.ProjetoFactory;
 import com.ufma.portifolium.utils.TecnologiaFactory;

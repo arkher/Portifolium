@@ -2,7 +2,7 @@ package com.ufma.portifolium.model;
 
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.Professor;
+import com.ufma.portifolium.model.entities.Professor;
 import com.ufma.portifolium.repository.ProfessorRepository;
 import com.ufma.portifolium.utils.ProfessorFactory;
 import com.ufma.portifolium.utils.Utils;

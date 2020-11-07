@@ -1,4 +1,4 @@
-package com.ufma.portifolium.entities;
+package com.ufma.portifolium.model.entities;
 
 import javax.persistence.*;
 
@@ -8,24 +8,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * TipoUsuario
+ * Aluno
  */
 
 @Entity
-@Table(name="tipo_usuario",schema="public")
+@Table(name="aluno",schema="public")
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TipoUsuario {
+public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="descricao")
-    private String descricao;
+    @Column(name="matricula")
+    private String matricula;
+
+    @Column(name="nome")
+    private String nome;
 
 }

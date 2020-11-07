@@ -1,6 +1,6 @@
 package com.ufma.portifolium.repository;
 
-import com.ufma.portifolium.entities.Usuario;
+import com.ufma.portifolium.model.entities.Usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package com.ufma.portifolium.entities;
+package com.ufma.portifolium.model.entities;
 
 import javax.persistence.*;
 

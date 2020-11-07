@@ -2,7 +2,7 @@ package com.ufma.portifolium.model;
 
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.Tecnologia;
+import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.repository.TecnologiaRepository;
 import com.ufma.portifolium.utils.TecnologiaFactory;
 

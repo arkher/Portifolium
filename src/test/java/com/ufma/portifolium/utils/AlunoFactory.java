@@ -1,6 +1,6 @@
 package com.ufma.portifolium.utils;
 
-import com.ufma.portifolium.entities.Aluno;
+import com.ufma.portifolium.model.entities.Aluno;
 
 public class AlunoFactory {
     public static Aluno buildALuno() {

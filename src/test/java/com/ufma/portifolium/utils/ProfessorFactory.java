@@ -1,6 +1,6 @@
 package com.ufma.portifolium.utils;
 
-import com.ufma.portifolium.entities.Professor;
+import com.ufma.portifolium.model.entities.Professor;
 
 public class ProfessorFactory {
     public static Professor buildProfessor() {

@@ -2,7 +2,7 @@ package com.ufma.portifolium.utils;
 
 import java.time.LocalDate;
 
-import com.ufma.portifolium.entities.Projeto;
+import com.ufma.portifolium.model.entities.Projeto;
 
 public class ProjetoFactory {
     public static Projeto buildProjeto() {
