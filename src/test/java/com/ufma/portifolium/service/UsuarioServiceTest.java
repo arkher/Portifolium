@@ -2,8 +2,8 @@ package com.ufma.portifolium.service;
 
 import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.repository.UsuarioRepository;
-import com.ufma.portifolium.service.exceptions.AutenticacaoException;
-import com.ufma.portifolium.service.exceptions.CadastroException;
+import com.ufma.portifolium.model.exceptions.AutenticacaoException;
+import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
 import com.ufma.portifolium.utils.UsuarioFactory;
 
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +46,7 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setCodigoAcesso(null);
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(usuario), "Código de acesso deve ser informado.");
     }
 
@@ -55,7 +55,7 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setSenha(null);
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(usuario), 
                                 "Senha deve ser informada.");
     }
@@ -65,7 +65,7 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setTipoUsuario(null);
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(usuario), 
                                 "Tipo de usuário deve ser informado.");
     }
@@ -75,7 +75,7 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setCodigoAcesso("pinguinssãoincríveis");
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(usuario), 
                                 "Um código válido deve ser informado (Campo somente numérico).");
     }
@@ -86,7 +86,7 @@ public class UsuarioServiceTest {
 
         Usuario salvo = usuarioRepository.save(usuario);
 
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(salvo), "Um usuário com este código de acesso já foi cadastrado");
     }
 

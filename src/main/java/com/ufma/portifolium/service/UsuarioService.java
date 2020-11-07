@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ufma.portifolium.model.entities.Usuario;
+import com.ufma.portifolium.model.exceptions.AutenticacaoException;
+import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
 import com.ufma.portifolium.repository.UsuarioRepository;
-import com.ufma.portifolium.service.exceptions.AutenticacaoException;
-import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,16 +51,18 @@ public class UsuarioService {
     }
 
     private void verificarUsuario(Usuario usuario){
-        if(usuario == null) throw new CadastroException("Um usuário válido deve ser informado.");
+        if(usuario == null) throw new UsuarioInvalidoException("Um usuário válido deve ser informado.");
         if(usuario.getCodigoAcesso() == null || usuario.getCodigoAcesso().equals("")) 
-            throw new CadastroException("Código de acesso deve ser informado.");
+            throw new UsuarioInvalidoException("Código de acesso deve ser informado.");
         if(usuario.getSenha() == null || usuario.getSenha().equals("")) 
-            throw new CadastroException("Senha deve ser informada.");
-        if(usuario.getTipoUsuario() == null) throw new CadastroException("Tipo de usuário deve ser informado.");
-        if(Utils.isNumeric(usuario.getCodigoAcesso())) throw new CadastroException("Um código válido deve ser informado (Campo somente numérico).");
+            throw new UsuarioInvalidoException("Senha deve ser informada.");
+        if(usuario.getTipoUsuario() == null) 
+            throw new UsuarioInvalidoException("Tipo de usuário deve ser informado.");
+        if(Utils.isNumeric(usuario.getCodigoAcesso())) 
+            throw new UsuarioInvalidoException("Um código válido deve ser informado (Campo somente numérico).");
 
         boolean usuarioJaCadastrado = usuarioRepository.existsByCodigoAcesso(usuario.getCodigoAcesso());
-        if(usuarioJaCadastrado) throw new CadastroException("Um usuário com este código de acesso já foi cadastrado");
+        if(usuarioJaCadastrado) throw new UsuarioInvalidoException("Um usuário com este código de acesso já foi cadastrado");
     }
 
     public void remover(Usuario usuario){

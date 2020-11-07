@@ -2,7 +2,7 @@ package com.ufma.portifolium.service;
 
 import com.ufma.portifolium.model.entities.Professor;
 import com.ufma.portifolium.repository.ProfessorRepository;
-import com.ufma.portifolium.service.exceptions.CadastroException;
+import com.ufma.portifolium.model.exceptions.ProfessorInvalidoException;
 import com.ufma.portifolium.utils.ProfessorFactory;
 
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +46,7 @@ public class ProfessorServiceTest {
                             .codigo("12345678")                
                             .build();
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(ProfessorInvalidoException.class, 
                                 () -> professorService.salvar(professor), "Um nome válido deve ser informado.");
     }
 
@@ -56,7 +56,7 @@ public class ProfessorServiceTest {
                             .nome("Teste")                
                             .build();
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(ProfessorInvalidoException.class, 
                                 () -> professorService.salvar(professor), "Um código válido deve ser informado.");
     }
 
@@ -67,7 +67,7 @@ public class ProfessorServiceTest {
                             .codigo("asdasdasd")                
                             .build();
 
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(ProfessorInvalidoException.class, 
                                 () -> professorService.salvar(professor), "Um código válido deve ser informado (Campo somente numérico).");
     }
 
@@ -77,7 +77,7 @@ public class ProfessorServiceTest {
 
         Professor salvo = professorRepository.save(professor);
 
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(ProfessorInvalidoException.class, 
                                 () -> professorService.salvar(salvo), "Professor já cadastrado.");
     }
 

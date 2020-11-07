@@ -2,7 +2,7 @@ package com.ufma.portifolium.service;
 
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.repository.AlunoRepository;
-import com.ufma.portifolium.service.exceptions.CadastroException;
+import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
 import com.ufma.portifolium.utils.AlunoFactory;
 
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +46,7 @@ public class AlunoServiceTest {
                             .matricula("12345678")                
                             .build();
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(AlunoInvalidoException.class, 
                                 () -> alunoService.salvar(aluno), "Um nome válido deve ser informado.");
     }
 
@@ -56,7 +56,7 @@ public class AlunoServiceTest {
                             .nome("Teste")                
                             .build();
         
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(AlunoInvalidoException.class, 
                                 () -> alunoService.salvar(aluno), "Uma matrícula válida deve ser informada.");
     }
 
@@ -67,7 +67,7 @@ public class AlunoServiceTest {
                             .matricula("asdasdasd")                
                             .build();
 
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(AlunoInvalidoException.class, 
                                 () -> alunoService.salvar(aluno), "Uma matrícula válida deve ser informada (Campo somente numérico).");
     }
 
@@ -77,7 +77,7 @@ public class AlunoServiceTest {
 
         Aluno salvo = alunoRepository.save(aluno);
 
-        Assertions.assertThrows(CadastroException.class, 
+        Assertions.assertThrows(AlunoInvalidoException.class, 
                                 () -> alunoService.salvar(salvo), "Aluno já cadastrado.");
     }
 

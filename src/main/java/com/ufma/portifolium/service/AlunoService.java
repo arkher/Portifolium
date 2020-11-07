@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ufma.portifolium.model.entities.Aluno;
+import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
 import com.ufma.portifolium.repository.AlunoRepository;
-import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +49,13 @@ public class AlunoService {
     }
 
     private void verificarAluno(Aluno aluno){
-        if(aluno == null) throw new CadastroException("Um aluno válido deve ser informado.");
-        if(aluno.getNome() == null || aluno.getNome().equals("")) throw new CadastroException("Um nome válido deve ser informado.");
-        if(aluno.getMatricula() == null || aluno.getMatricula().equals("")) throw new CadastroException("Uma matrícula válida deve ser informada.");
-        if(Utils.isNumeric(aluno.getMatricula())) throw new CadastroException("Uma matrícula válida deve ser informada (Campo somente numérico).");
+        if(aluno == null) throw new AlunoInvalidoException("Um aluno válido deve ser informado.");
+        if(aluno.getNome() == null || aluno.getNome().equals("")) throw new AlunoInvalidoException("Um nome válido deve ser informado.");
+        if(aluno.getMatricula() == null || aluno.getMatricula().equals("")) throw new AlunoInvalidoException("Uma matrícula válida deve ser informada.");
+        if(Utils.isNumeric(aluno.getMatricula())) throw new AlunoInvalidoException("Uma matrícula válida deve ser informada (Campo somente numérico).");
 
         boolean alunoJaCadastrado = alunoRepository.existsByMatricula(aluno.getMatricula());
-        if(alunoJaCadastrado) throw new CadastroException("Aluno já cadastrado.");
+        if(alunoJaCadastrado) throw new AlunoInvalidoException("Aluno já cadastrado.");
     }
 
     public void remover(Aluno aluno){

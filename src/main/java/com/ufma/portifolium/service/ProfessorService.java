@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ufma.portifolium.model.entities.Professor;
+import com.ufma.portifolium.model.exceptions.ProfessorInvalidoException;
 import com.ufma.portifolium.repository.ProfessorRepository;
-import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +49,13 @@ public class ProfessorService {
     }
 
     private void verificarProfessor(Professor professor){
-        if(professor == null) throw new CadastroException("Um Professor válido deve ser informado.");
-        if(professor.getNome() == null || professor.getNome().equals("")) throw new CadastroException("Um nome válido deve ser informado.");
-        if(professor.getCodigo() == null || professor.getCodigo().equals("")) throw new CadastroException("Um código válido deve ser informado.");
-        if(Utils.isNumeric(professor.getCodigo())) throw new CadastroException("Um código válido deve ser informado (Campo somente numérico).");
+        if(professor == null) throw new ProfessorInvalidoException("Um Professor válido deve ser informado.");
+        if(professor.getNome() == null || professor.getNome().equals("")) throw new ProfessorInvalidoException("Um nome válido deve ser informado.");
+        if(professor.getCodigo() == null || professor.getCodigo().equals("")) throw new ProfessorInvalidoException("Um código válido deve ser informado.");
+        if(Utils.isNumeric(professor.getCodigo())) throw new ProfessorInvalidoException("Um código válido deve ser informado (Campo somente numérico).");
 
         boolean professorJaCadastrado = professorRepository.existsByCodigo(professor.getCodigo());
-        if(professorJaCadastrado) throw new CadastroException("Professor já cadastrado.");
+        if(professorJaCadastrado) throw new ProfessorInvalidoException("Professor já cadastrado.");
     }
 
     public void remover(Professor professor){
