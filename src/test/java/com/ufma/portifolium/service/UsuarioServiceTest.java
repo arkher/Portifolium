@@ -88,6 +88,8 @@ public class UsuarioServiceTest {
 
         Assertions.assertThrows(UsuarioInvalidoException.class, 
                                 () -> usuarioService.salvar(salvo), "Um usuário com este código de acesso já foi cadastrado");
+    
+        usuarioRepository.delete(salvo);
     }
 
     @Test
@@ -95,7 +97,7 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
 
         Usuario salvo = usuarioRepository.save(usuario);
-        boolean resposta = usuarioService.efetuarLogin(usuario.getCodigoAcesso(), usuario.getSenha());
+        boolean resposta = usuarioService.efetuarLogin(salvo.getCodigoAcesso(), salvo.getSenha());
 
         Assertions.assertTrue(resposta);
 
