@@ -1,6 +1,6 @@
 package com.ufma.portifolium.service;
 
-import com.ufma.portifolium.entities.Usuario;
+import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.service.exceptions.AutenticacaoException;
 import com.ufma.portifolium.service.exceptions.CadastroException;
