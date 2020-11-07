@@ -58,7 +58,7 @@ public class UsuarioService {
             throw new UsuarioInvalidoException("Senha deve ser informada.");
         if(usuario.getTipoUsuario() == null) 
             throw new UsuarioInvalidoException("Tipo de usuário deve ser informado.");
-        if(Utils.isNumeric(usuario.getCodigoAcesso())) 
+        if(!Utils.isNumeric(usuario.getCodigoAcesso())) 
             throw new UsuarioInvalidoException("Um código válido deve ser informado (Campo somente numérico).");
 
         boolean usuarioJaCadastrado = usuarioRepository.existsByCodigoAcesso(usuario.getCodigoAcesso());

@@ -52,7 +52,7 @@ public class ProfessorService {
         if(professor == null) throw new ProfessorInvalidoException("Um Professor válido deve ser informado.");
         if(professor.getNome() == null || professor.getNome().equals("")) throw new ProfessorInvalidoException("Um nome válido deve ser informado.");
         if(professor.getCodigo() == null || professor.getCodigo().equals("")) throw new ProfessorInvalidoException("Um código válido deve ser informado.");
-        if(Utils.isNumeric(professor.getCodigo())) throw new ProfessorInvalidoException("Um código válido deve ser informado (Campo somente numérico).");
+        if(!Utils.isNumeric(professor.getCodigo())) throw new ProfessorInvalidoException("Um código válido deve ser informado (Campo somente numérico).");
 
         boolean professorJaCadastrado = professorRepository.existsByCodigo(professor.getCodigo());
         if(professorJaCadastrado) throw new ProfessorInvalidoException("Professor já cadastrado.");

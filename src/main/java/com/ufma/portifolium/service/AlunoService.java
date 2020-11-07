@@ -52,7 +52,7 @@ public class AlunoService {
         if(aluno == null) throw new AlunoInvalidoException("Um aluno válido deve ser informado.");
         if(aluno.getNome() == null || aluno.getNome().equals("")) throw new AlunoInvalidoException("Um nome válido deve ser informado.");
         if(aluno.getMatricula() == null || aluno.getMatricula().equals("")) throw new AlunoInvalidoException("Uma matrícula válida deve ser informada.");
-        if(Utils.isNumeric(aluno.getMatricula())) throw new AlunoInvalidoException("Uma matrícula válida deve ser informada (Campo somente numérico).");
+        if(!Utils.isNumeric(aluno.getMatricula())) throw new AlunoInvalidoException("Uma matrícula válida deve ser informada (Campo somente numérico).");
 
         boolean alunoJaCadastrado = alunoRepository.existsByMatricula(aluno.getMatricula());
         if(alunoJaCadastrado) throw new AlunoInvalidoException("Aluno já cadastrado.");
