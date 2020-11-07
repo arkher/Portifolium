@@ -3,7 +3,7 @@ package com.ufma.portifolium.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.Aluno;
+import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.Utils;

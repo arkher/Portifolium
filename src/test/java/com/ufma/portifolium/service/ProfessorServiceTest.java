@@ -1,6 +1,6 @@
 package com.ufma.portifolium.service;
 
-import com.ufma.portifolium.entities.Professor;
+import com.ufma.portifolium.model.entities.Professor;
 import com.ufma.portifolium.repository.ProfessorRepository;
 import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.ProfessorFactory;

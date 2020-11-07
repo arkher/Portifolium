@@ -1,6 +1,6 @@
 package com.ufma.portifolium.service;
 
-import com.ufma.portifolium.entities.Aluno;
+import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.service.exceptions.CadastroException;
 import com.ufma.portifolium.utils.AlunoFactory;
