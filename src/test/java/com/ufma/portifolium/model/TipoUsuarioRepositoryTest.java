@@ -2,7 +2,7 @@ package com.ufma.portifolium.model;
 
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.TipoUsuario;
+import com.ufma.portifolium.model.entities.TipoUsuario;
 import com.ufma.portifolium.repository.TipoUsuarioRepository;
 
 import org.junit.jupiter.api.Assertions;

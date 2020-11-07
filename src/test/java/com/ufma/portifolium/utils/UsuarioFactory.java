@@ -2,10 +2,10 @@ package com.ufma.portifolium.utils;
 
 import java.time.LocalDate;
 
-import com.ufma.portifolium.entities.Aluno;
-import com.ufma.portifolium.entities.Professor;
-import com.ufma.portifolium.entities.TipoUsuario;
-import com.ufma.portifolium.entities.Usuario;
+import com.ufma.portifolium.model.entities.Aluno;
+import com.ufma.portifolium.model.entities.Professor;
+import com.ufma.portifolium.model.entities.TipoUsuario;
+import com.ufma.portifolium.model.entities.Usuario;
 
 public class UsuarioFactory {
     public static Usuario buildUsuarioAluno() {

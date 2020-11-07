@@ -2,7 +2,7 @@ package com.ufma.portifolium.model;
 
 import java.util.Optional;
 
-import com.ufma.portifolium.entities.Usuario;
+import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.utils.UsuarioFactory;
 
