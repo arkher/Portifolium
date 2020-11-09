@@ -6,9 +6,11 @@ import java.util.Optional;
 
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Projeto;
+import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.model.exceptions.ProjetoInvalidoException;
 import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.repository.ProjetoRepository;
+import com.ufma.portifolium.repository.TecnologiaRepository;
 
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjetoService {
   ProjetoRepository projetoRepository;
   AlunoRepository alunoRepository;
+  TecnologiaRepository tecnologiaRepository;
 
   @Autowired
-  public ProjetoService(ProjetoRepository projetoRepository, AlunoRepository alunoRepository) {
+  public ProjetoService(ProjetoRepository projetoRepository, 
+                        AlunoRepository alunoRepository,
+                        TecnologiaRepository tecnologiaRepository) {
     this.projetoRepository = projetoRepository;
     this.alunoRepository = alunoRepository;
+    this.tecnologiaRepository = tecnologiaRepository;
   }
 
   public List<Projeto> recuperarProjetos() {
@@ -69,18 +75,24 @@ public class ProjetoService {
       throw new ProjetoInvalidoException("O campo dataFim deve ser preenchido.");
     if (projeto.getDescricao() == null || projeto.getDescricao().equals(""))
       throw new ProjetoInvalidoException("O campo descricao deve ser preenchido.");
+    if (projeto.getTecnologias() == null || projeto.getTecnologias().isEmpty())
+      throw new ProjetoInvalidoException("O campo tecnologias deve ser preenchido.");
+    verificaTecnologias(projeto);
   }
 
-  @Transactional
-  public void remover(Projeto projeto) {
-    verificarProjeto(projeto);
-    projetoRepository.delete(projeto);
+  private void verificaTecnologias(Projeto projeto) {
+    for(Tecnologia t: projeto.getTecnologias()){
+      Optional<Tecnologia> tOptional = tecnologiaRepository.findByDescricao(t.getDescricao());
+      if(!tOptional.isPresent()) 
+        tecnologiaRepository.save(t);
+    }
   }
 
   @Transactional
   public void remover(Long id) {
     Optional<Projeto> projeto = projetoRepository.findById(id);
-    if(projeto.isPresent()) projetoRepository.delete(projeto.get());
+    if (projeto.isPresent())
+      projetoRepository.delete(projeto.get());
   }
 
 }
