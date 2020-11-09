@@ -4,6 +4,7 @@ import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
 import com.ufma.portifolium.model.exceptions.AutenticacaoException;
 import com.ufma.portifolium.model.exceptions.ProfessorInvalidoException;
 import com.ufma.portifolium.model.exceptions.ProjetoInvalidoException;
+import com.ufma.portifolium.model.exceptions.TecnologiaInvalidaException;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
 
 import org.springframework.core.Ordered;
@@ -44,6 +45,12 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ProjetoInvalidoException.class)
   protected ResponseEntity<Object> handleProjetoInvalido(ProjetoInvalidoException ex) {
+    ApiError apiError = buildApiError(HttpStatus.BAD_REQUEST, ex);
+    return buildResponseEntity(apiError);
+  }
+
+  @ExceptionHandler(TecnologiaInvalidaException.class)
+  protected ResponseEntity<Object> handleTecnologiaInvalida(TecnologiaInvalidaException ex) {
     ApiError apiError = buildApiError(HttpStatus.BAD_REQUEST, ex);
     return buildResponseEntity(apiError);
   }
