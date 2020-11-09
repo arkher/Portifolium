@@ -71,11 +71,13 @@ public class ProjetoService {
       throw new ProjetoInvalidoException("O campo descricao deve ser preenchido.");
   }
 
+  @Transactional
   public void remover(Projeto projeto) {
     verificarProjeto(projeto);
     projetoRepository.delete(projeto);
   }
 
+  @Transactional
   public void remover(Long id) {
     Optional<Projeto> projeto = projetoRepository.findById(id);
     if(projeto.isPresent()) projetoRepository.delete(projeto.get());
