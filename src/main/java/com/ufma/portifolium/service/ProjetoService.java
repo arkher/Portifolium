@@ -12,11 +12,11 @@ import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.repository.ProjetoRepository;
 import com.ufma.portifolium.repository.TecnologiaRepository;
 
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -26,9 +26,8 @@ public class ProjetoService {
   TecnologiaRepository tecnologiaRepository;
 
   @Autowired
-  public ProjetoService(ProjetoRepository projetoRepository, 
-                        AlunoRepository alunoRepository,
-                        TecnologiaRepository tecnologiaRepository) {
+  public ProjetoService(ProjetoRepository projetoRepository, AlunoRepository alunoRepository,
+      TecnologiaRepository tecnologiaRepository) {
     this.projetoRepository = projetoRepository;
     this.alunoRepository = alunoRepository;
     this.tecnologiaRepository = tecnologiaRepository;
@@ -68,7 +67,7 @@ public class ProjetoService {
     if (projeto.getValidado() == null)
       throw new ProjetoInvalidoException("O campo validado deve ser preenchido.");
     if (projeto.getAluno() == null)
-      throw new ProjetoInvalidoException("O campo validado deve ser preenchido.");
+      throw new ProjetoInvalidoException("O campo aluno deve ser preenchido.");
     if (projeto.getDataInicio() == null)
       throw new ProjetoInvalidoException("O campo dataInicio deve ser preenchido.");
     if (projeto.getDataFim() == null)
@@ -81,9 +80,9 @@ public class ProjetoService {
   }
 
   private void verificaTecnologias(Projeto projeto) {
-    for(Tecnologia t: projeto.getTecnologias()){
+    for (Tecnologia t : projeto.getTecnologias()) {
       Optional<Tecnologia> tOptional = tecnologiaRepository.findByDescricao(t.getDescricao());
-      if(!tOptional.isPresent()) 
+      if (!tOptional.isPresent())
         tecnologiaRepository.save(t);
     }
   }

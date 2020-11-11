@@ -17,13 +17,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 public class AlunoServiceTest {
-    
+
     AlunoService alunoService;
 
     AlunoRepository alunoRepository;
 
     @Autowired
-    public AlunoServiceTest(AlunoService alunoService, AlunoRepository alunoRepository){
+    public AlunoServiceTest(AlunoService alunoService, AlunoRepository alunoRepository) {
         this.alunoService = alunoService;
         this.alunoRepository = alunoRepository;
     }
@@ -31,44 +31,37 @@ public class AlunoServiceTest {
     @Test
     public void deveSalvarAluno() {
         Aluno aluno = AlunoFactory.buildALuno();
-        
+
         Aluno salvo = alunoService.salvar(aluno);
 
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
-        
+
         alunoRepository.delete(salvo);
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemNome() {
-        Aluno aluno = Aluno.builder()
-                            .matricula("12345678")                
-                            .build();
-        
-        Assertions.assertThrows(AlunoInvalidoException.class, 
-                                () -> alunoService.salvar(aluno), "Um nome válido deve ser informado.");
+        Aluno aluno = Aluno.builder().matricula("12345678").build();
+
+        Assertions.assertThrows(AlunoInvalidoException.class, () -> alunoService.salvar(aluno),
+                "Um nome válido deve ser informado.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemMatricula() {
-        Aluno aluno = Aluno.builder()
-                            .nome("Teste")                
-                            .build();
-        
-        Assertions.assertThrows(AlunoInvalidoException.class, 
-                                () -> alunoService.salvar(aluno), "Uma matrícula válida deve ser informada.");
+        Aluno aluno = Aluno.builder().nome("Teste").build();
+
+        Assertions.assertThrows(AlunoInvalidoException.class, () -> alunoService.salvar(aluno),
+                "Uma matrícula válida deve ser informada.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarMatriculaInvalida() {
-        Aluno aluno = Aluno.builder()
-                            .nome("Teste")
-                            .matricula("asdasdasd")                
-                            .build();
+        Aluno aluno = Aluno.builder().nome("Teste").matricula("asdasdasd").build();
 
-        Assertions.assertThrows(AlunoInvalidoException.class, 
-                                () -> alunoService.salvar(aluno), "Uma matrícula válida deve ser informada (Campo somente numérico).");
+        Assertions.assertThrows(AlunoInvalidoException.class, () -> alunoService.salvar(aluno),
+                "Uma matrícula válida deve ser informada (Campo somente numérico).");
     }
 
     @Test
@@ -77,8 +70,9 @@ public class AlunoServiceTest {
 
         Aluno salvo = alunoRepository.save(aluno);
 
-        Assertions.assertThrows(AlunoInvalidoException.class, 
-                                () -> alunoService.salvar(salvo), "Aluno já cadastrado.");
+        Assertions.assertThrows(AlunoInvalidoException.class, () -> alunoService.salvar(salvo), "Aluno já cadastrado.");
+
+        alunoRepository.delete(salvo);
     }
 
 }

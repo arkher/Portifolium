@@ -48,6 +48,10 @@ public class TecnologiaService {
   private void verificaTecnologia(Tecnologia tecnologia) {
     if(tecnologia.getDescricao()==null || tecnologia.getDescricao().equals(""))
       throw new TecnologiaInvalidaException("Uma descrição deve ser informada.");
+    
+    boolean tecnologiaJaCadastrada = tecnologiaRepository.existsByDescricao(tecnologia.getDescricao());
+    if(tecnologiaJaCadastrada) 
+      throw new TecnologiaInvalidaException("A tecnologia já foi cadastrada."); 
   }
 
 }

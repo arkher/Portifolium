@@ -45,7 +45,11 @@ public class TipoUsuarioService {
     if (tUsuario == null)
       throw new UsuarioInvalidoException("Um tipo de usuário válido deve ser informado.");
     if (tUsuario.getDescricao() == null || tUsuario.getDescricao().equals(""))
-      throw new UsuarioInvalidoException("Um tipo de usuário com descrição deve ser informado.");
+      throw new UsuarioInvalidoException("Uma descrição deve ser informada.");
+
+    boolean tipoUsuarioJaCadastrado = tipoUsuarioRepository.existsByDescricao(tUsuario.getDescricao());
+    if (tipoUsuarioJaCadastrado)
+      throw new UsuarioInvalidoException("Tipo de usuario já cadastrado.");
   }
 
 }

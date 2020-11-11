@@ -17,13 +17,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 public class ProfessorServiceTest {
-    
+
     ProfessorService professorService;
 
     ProfessorRepository professorRepository;
 
     @Autowired
-    public ProfessorServiceTest(ProfessorService professorService, ProfessorRepository professorRepository){
+    public ProfessorServiceTest(ProfessorService professorService, ProfessorRepository professorRepository) {
         this.professorService = professorService;
         this.professorRepository = professorRepository;
     }
@@ -31,44 +31,37 @@ public class ProfessorServiceTest {
     @Test
     public void deveSalvarProfessor() {
         Professor professor = ProfessorFactory.buildProfessor();
-        
+
         Professor salvo = professorService.salvar(professor);
 
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
-        
+
         professorRepository.delete(salvo);
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemNome() {
-        Professor professor = Professor.builder()
-                            .codigo("12345678")                
-                            .build();
-        
-        Assertions.assertThrows(ProfessorInvalidoException.class, 
-                                () -> professorService.salvar(professor), "Um nome válido deve ser informado.");
+        Professor professor = Professor.builder().codigo("12345678").build();
+
+        Assertions.assertThrows(ProfessorInvalidoException.class, () -> professorService.salvar(professor),
+                "Um nome válido deve ser informado.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemCodigo() {
-        Professor professor = Professor.builder()
-                            .nome("Teste")                
-                            .build();
-        
-        Assertions.assertThrows(ProfessorInvalidoException.class, 
-                                () -> professorService.salvar(professor), "Um código válido deve ser informado.");
+        Professor professor = Professor.builder().nome("Teste").build();
+
+        Assertions.assertThrows(ProfessorInvalidoException.class, () -> professorService.salvar(professor),
+                "Um código válido deve ser informado.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarCodigoInvalido() {
-        Professor professor = Professor.builder()
-                            .nome("Teste")
-                            .codigo("asdasdasd")                
-                            .build();
+        Professor professor = Professor.builder().nome("Teste").codigo("asdasdasd").build();
 
-        Assertions.assertThrows(ProfessorInvalidoException.class, 
-                                () -> professorService.salvar(professor), "Um código válido deve ser informado (Campo somente numérico).");
+        Assertions.assertThrows(ProfessorInvalidoException.class, () -> professorService.salvar(professor),
+                "Um código válido deve ser informado (Campo somente numérico).");
     }
 
     @Test
@@ -77,8 +70,11 @@ public class ProfessorServiceTest {
 
         Professor salvo = professorRepository.save(professor);
 
-        Assertions.assertThrows(ProfessorInvalidoException.class, 
-                                () -> professorService.salvar(salvo), "Professor já cadastrado.");
+        Assertions.assertThrows(ProfessorInvalidoException.class, () -> professorService.salvar(salvo),
+                "Professor já cadastrado.");
+
+        professorRepository.delete(salvo);
+
     }
 
 }

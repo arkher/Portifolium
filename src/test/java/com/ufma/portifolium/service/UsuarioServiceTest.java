@@ -18,13 +18,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
-    
+
     UsuarioService usuarioService;
 
     UsuarioRepository usuarioRepository;
 
     @Autowired
-    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository){
+    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
         this.usuarioService = usuarioService;
         this.usuarioRepository = usuarioRepository;
     }
@@ -32,12 +32,12 @@ public class UsuarioServiceTest {
     @Test
     public void deveSalvarUsuarioAluno() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
-        
+
         Usuario salvo = usuarioService.salvar(usuario);
 
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
-        
+
         usuarioRepository.delete(salvo);
     }
 
@@ -45,39 +45,36 @@ public class UsuarioServiceTest {
     public void deveGerarErroAoTentarSalvarSemCodigo() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setCodigoAcesso(null);
-        
-        Assertions.assertThrows(UsuarioInvalidoException.class, 
-                                () -> usuarioService.salvar(usuario), "Código de acesso deve ser informado.");
+
+        Assertions.assertThrows(UsuarioInvalidoException.class, () -> usuarioService.salvar(usuario),
+                "Código de acesso deve ser informado.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemSenha() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setSenha(null);
-        
-        Assertions.assertThrows(UsuarioInvalidoException.class, 
-                                () -> usuarioService.salvar(usuario), 
-                                "Senha deve ser informada.");
+
+        Assertions.assertThrows(UsuarioInvalidoException.class, () -> usuarioService.salvar(usuario),
+                "Senha deve ser informada.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarSemTipoUsuario() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setTipoUsuario(null);
-        
-        Assertions.assertThrows(UsuarioInvalidoException.class, 
-                                () -> usuarioService.salvar(usuario), 
-                                "Tipo de usuário deve ser informado.");
+
+        Assertions.assertThrows(UsuarioInvalidoException.class, () -> usuarioService.salvar(usuario),
+                "Tipo de usuário deve ser informado.");
     }
 
     @Test
     public void deveGerarErroAoTentarSalvarCodigoInvalido() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
         usuario.setCodigoAcesso("pinguinssãoincríveis");
-        
-        Assertions.assertThrows(UsuarioInvalidoException.class, 
-                                () -> usuarioService.salvar(usuario), 
-                                "Um código válido deve ser informado (Campo somente numérico).");
+
+        Assertions.assertThrows(UsuarioInvalidoException.class, () -> usuarioService.salvar(usuario),
+                "Um código válido deve ser informado (Campo somente numérico).");
     }
 
     @Test
@@ -86,9 +83,9 @@ public class UsuarioServiceTest {
 
         Usuario salvo = usuarioRepository.save(usuario);
 
-        Assertions.assertThrows(UsuarioInvalidoException.class, 
-                                () -> usuarioService.salvar(salvo), "Um usuário com este código de acesso já foi cadastrado");
-    
+        Assertions.assertThrows(UsuarioInvalidoException.class, () -> usuarioService.salvar(salvo),
+                "Um usuário com este código de acesso já foi cadastrado");
+
         usuarioRepository.delete(salvo);
     }
 
@@ -106,10 +103,9 @@ public class UsuarioServiceTest {
 
     @Test
     public void deveGerarErroAutenticacaoCodigoNaoCadastrado() {
-        
-        Assertions.assertThrows(AutenticacaoException.class, 
-                                () -> usuarioService.efetuarLogin("0000000", "123456"),
-                                "Erro de Autenticação. Código de acesso não encontrado.");
+
+        Assertions.assertThrows(AutenticacaoException.class, () -> usuarioService.efetuarLogin("0000000", "123456"),
+                "Erro de Autenticação. Código de acesso não encontrado.");
     }
 
     @Test
@@ -119,9 +115,8 @@ public class UsuarioServiceTest {
         Usuario salvo = usuarioRepository.save(usuario);
         String codigo = salvo.getCodigoAcesso();
 
-        Assertions.assertThrows(AutenticacaoException.class, 
-                                () -> usuarioService.efetuarLogin(codigo, "0000000"),
-                                "Erro de Autenticação. Senha incorreta.");
+        Assertions.assertThrows(AutenticacaoException.class, () -> usuarioService.efetuarLogin(codigo, "0000000"),
+                "Erro de Autenticação. Senha incorreta.");
 
         usuarioRepository.delete(salvo);
     }

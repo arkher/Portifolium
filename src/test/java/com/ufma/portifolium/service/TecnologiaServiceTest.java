@@ -29,26 +29,34 @@ public class TecnologiaServiceTest {
 
   @Test
   public void deveSalvarTecnologia() {
-      Tecnologia tecnologia = TecnologiaFactory.buildTecnologia();
-      
-      Tecnologia salvo = tecnologiaService.salvar(tecnologia);
+    Tecnologia tecnologia = TecnologiaFactory.buildTecnologia();
 
-      Assertions.assertNotNull(salvo);
-      Assertions.assertNotNull(salvo.getId());
-      
-      tecnologiaRepository.delete(salvo);
+    Tecnologia salvo = tecnologiaService.salvar(tecnologia);
+
+    Assertions.assertNotNull(salvo);
+    Assertions.assertNotNull(salvo.getId());
+
+    tecnologiaRepository.delete(salvo);
   }
 
   @Test
   public void deveGerarErroAoTentarSalvarSemDescricao() {
-      Tecnologia tecnologia = Tecnologia.builder()
-                          .descricao("uma descrição qualquer.")                
-                          .build();
-      
-      Assertions.assertThrows(TecnologiaInvalidaException.class, 
-                              () -> tecnologiaService.salvar(tecnologia), "Uma descrição deve ser informada.");
+    Tecnologia tecnologia = Tecnologia.builder().build();
+
+    Assertions.assertThrows(TecnologiaInvalidaException.class, () -> tecnologiaService.salvar(tecnologia),
+        "Uma descrição deve ser informada.");
   }
 
-  
+  @Test
+  public void deveGerarErroAoTentarSalvarTecnologiaJaCadastrada() {
+    Tecnologia tecnologia = Tecnologia.builder().descricao("uma descrição qualquer.").build();
+
+    Tecnologia salvo = tecnologiaRepository.save(tecnologia);
+
+    Assertions.assertThrows(TecnologiaInvalidaException.class, () -> tecnologiaService.salvar(salvo),
+        "A tecnologia já foi cadastrada.");
+
+    tecnologiaRepository.delete(salvo);
+  }
 
 }
