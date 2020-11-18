@@ -1,0 +1,38 @@
+textarea{
+    width: 100px;
+    height: 100px;
+    line-height: 24px;
+}
+
+input{
+    border-radius: 8px;
+    height: 40px;
+    font: 17px Roboto;
+    padding-left: 15px;
+    border: 2px solid #c5c5c5;
+    color: #4b4b4b;
+    font-weight: bold;
+}
+
+button{
+    cursor: pointer;
+}
+
+.button{
+    background: #454545;
+    color: #FFF;
+    font-weight: bold;
+    display: inline-block;
+    text-align:center;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 30px;
+    width: 90px;
+    transition: filter 0.1s;
+    border: 0px;
+    border-radius: 8px;
+    
+}
+.button:hover{ /*escurecer quando passar o mouse*/
+    filter: brightness(83%); /*filtro do CSS, escurecendo 10%*/
+}
