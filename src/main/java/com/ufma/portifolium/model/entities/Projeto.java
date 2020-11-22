@@ -1,6 +1,7 @@
 package com.ufma.portifolium.model.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -50,5 +51,13 @@ public class Projeto {
     @Column(name = "alterado_em")   
     @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate alteradoEm;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "projeto_tecnologia",
+        joinColumns = { @JoinColumn(name = "id_projeto") },
+        inverseJoinColumns = { @JoinColumn(name = "id_tecnologia") }
+    )
+    private List<Tecnologia> tecnologias;
 
 }

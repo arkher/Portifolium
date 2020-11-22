@@ -1,5 +1,7 @@
 package com.ufma.portifolium.model.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +29,8 @@ public class Tecnologia {
 
     @Column(name="descricao")
     private String descricao;
+
+    @ManyToMany(mappedBy = "tecnologias")
+    private List<Projeto> projetos;
 
 }

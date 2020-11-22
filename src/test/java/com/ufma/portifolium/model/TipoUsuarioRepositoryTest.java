@@ -31,6 +31,7 @@ public class TipoUsuarioRepositoryTest {
         Assertions.assertNotNull(salvo);
         Assertions.assertEquals(tipoUsuario, salvo);
         Assertions.assertNotNull(salvo.getId());
+        repository.delete(salvo);
     }
 
     @Test
