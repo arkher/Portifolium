@@ -1,6 +1,5 @@
 package com.ufma.portifolium.controller;
 
-import java.util.List;
 
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/alunos")
+@RequestMapping("/alunos")
 public class AlunoController {
     AlunoService alunoService;
     
