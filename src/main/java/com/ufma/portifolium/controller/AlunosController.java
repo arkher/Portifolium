@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/alunos")
-public class AlunoController {
+public class AlunosController {
     AlunoService alunoService;
     
     @Autowired
-    public AlunoController(AlunoService alunoService){ this.alunoService = alunoService; }
+    public AlunosController(AlunoService alunoService){ this.alunoService = alunoService; }
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody Aluno aluno){
