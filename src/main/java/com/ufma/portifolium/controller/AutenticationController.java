@@ -1,6 +1,6 @@
 package com.ufma.portifolium.controller;
 
-import com.ufma.portifolium.model.dto.UsuarioDTO;
+import com.ufma.portifolium.model.dto.UsuarioLoginDTO;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
 import com.ufma.portifolium.service.UsuarioService;
 
@@ -24,7 +24,7 @@ public class AutenticationController {
     }
 
     @PostMapping
-    public ResponseEntity realizarLogin(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity realizarLogin(@RequestBody UsuarioLoginDTO usuarioDTO){
         try {
             boolean logado = usuarioService.efetuarLogin(usuarioDTO.getLogin(), usuarioDTO.getSenha());
             if(logado) return new ResponseEntity(true, HttpStatus.OK);
