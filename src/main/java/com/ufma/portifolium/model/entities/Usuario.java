@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @JsonIgnore
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)

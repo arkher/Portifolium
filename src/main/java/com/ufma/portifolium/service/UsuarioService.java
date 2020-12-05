@@ -3,9 +3,11 @@ package com.ufma.portifolium.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufma.portifolium.model.entities.TipoUsuario;
 import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.model.exceptions.AutenticacaoException;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
+import com.ufma.portifolium.repository.TipoUsuarioRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.utils.Utils;
 
@@ -20,10 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioService {
     
     UsuarioRepository usuarioRepository;
+    TipoUsuarioRepository tipoUsuarioRepository;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, TipoUsuarioRepository tipoUsuarioRepository){
         this.usuarioRepository = usuarioRepository;
+        this.tipoUsuarioRepository = tipoUsuarioRepository;
     }
 
     public boolean efetuarLogin(String codigoAcesso, String hashSenha){
@@ -35,6 +39,13 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario){
+        Optional<TipoUsuario> tipoUsuario = tipoUsuarioRepository.findByDescricao(usuario.getTipoUsuario().getDescricao());
+        if(tipoUsuario.isPresent()){
+            usuario.setTipoUsuario(tipoUsuario.get());
+        } 
+        else{
+            throw new UsuarioInvalidoException("Tipo de usuário inválido.");
+        }
         verificarUsuario(usuario);
         return usuarioRepository.save(usuario);
     }
