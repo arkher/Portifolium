@@ -1,6 +1,7 @@
 package com.ufma.portifolium.service;
 
 import com.ufma.portifolium.model.entities.Usuario;
+import com.ufma.portifolium.repository.TipoUsuarioRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.model.exceptions.AutenticacaoException;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
@@ -23,16 +24,22 @@ public class UsuarioServiceTest {
 
     UsuarioRepository usuarioRepository;
 
+    TipoUsuarioRepository tipoUsuarioRepository;
+
     @Autowired
-    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
+    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository,
+                            TipoUsuarioRepository tipoUsuarioRepository ) {
         this.usuarioService = usuarioService;
         this.usuarioRepository = usuarioRepository;
+        this.tipoUsuarioRepository = tipoUsuarioRepository;
     }
 
     @Test
     public void deveSalvarUsuarioAluno() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
 
+        tipoUsuarioRepository.save(usuario.getTipoUsuario());
+        
         Usuario salvo = usuarioService.salvar(usuario);
 
         Assertions.assertNotNull(salvo);

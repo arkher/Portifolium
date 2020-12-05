@@ -39,6 +39,7 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario){
+        verificarUsuario(usuario);
         Optional<TipoUsuario> tipoUsuario = tipoUsuarioRepository.findByDescricao(usuario.getTipoUsuario().getDescricao());
         if(tipoUsuario.isPresent()){
             usuario.setTipoUsuario(tipoUsuario.get());
@@ -46,7 +47,6 @@ public class UsuarioService {
         else{
             throw new UsuarioInvalidoException("Tipo de usuário inválido.");
         }
-        verificarUsuario(usuario);
         return usuarioRepository.save(usuario);
     }
 
