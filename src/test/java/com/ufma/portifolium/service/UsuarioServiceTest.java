@@ -1,5 +1,6 @@
 package com.ufma.portifolium.service;
 
+import com.ufma.portifolium.model.dto.UsuarioDTO;
 import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.repository.TipoUsuarioRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
@@ -40,12 +41,12 @@ public class UsuarioServiceTest {
 
         tipoUsuarioRepository.save(usuario.getTipoUsuario());
         
-        Usuario salvo = usuarioService.salvar(usuario);
+        UsuarioDTO salvo = usuarioService.salvar(usuario);
 
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
 
-        usuarioRepository.delete(salvo);
+        usuarioRepository.delete(usuario);
     }
 
     @Test

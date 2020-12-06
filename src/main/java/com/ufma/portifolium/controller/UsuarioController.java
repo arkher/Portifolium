@@ -1,7 +1,6 @@
 package com.ufma.portifolium.controller;
 
 import com.ufma.portifolium.model.dto.UsuarioDTO;
-import com.ufma.portifolium.model.dto.UsuarioLoginDTO;
 import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
 import com.ufma.portifolium.service.UsuarioService;
@@ -28,7 +27,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity salvar(@RequestBody Usuario usuario){
         try {
-            Usuario salvo = usuarioService.salvar(usuario);
+            UsuarioDTO salvo = usuarioService.salvar(usuario);
             return new ResponseEntity(salvo, HttpStatus.CREATED);
         } catch (UsuarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
