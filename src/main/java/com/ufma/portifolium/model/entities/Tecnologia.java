@@ -33,6 +33,7 @@ public class Tecnologia {
     @Column(name="descricao")
     private String descricao;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tecnologias")
     private List<Projeto> projetos;
 
