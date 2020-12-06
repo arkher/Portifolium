@@ -37,6 +37,9 @@ public class Projeto {
     @JoinColumn(name="id_aluno")
     private Aluno aluno;
 
+    @Column(name="nome")
+    private String nome;
+
     @Column(name="descricao")
     private String descricao;
 
