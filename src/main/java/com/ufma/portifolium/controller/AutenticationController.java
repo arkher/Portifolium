@@ -24,9 +24,9 @@ public class AutenticationController {
     }
 
     @PostMapping
-    public ResponseEntity realizarLogin(@RequestBody UsuarioLoginDTO usuarioDTO){
+    public ResponseEntity realizarLogin(@RequestBody UsuarioLoginDTO usuarioLoginDTO){
         try {
-            boolean logado = usuarioService.efetuarLogin(usuarioDTO.getLogin(), usuarioDTO.getSenha());
+            boolean logado = usuarioService.efetuarLogin(usuarioLoginDTO.getLogin(), usuarioLoginDTO.getSenha());
             if(logado) return new ResponseEntity(true, HttpStatus.OK);
         } catch (UsuarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
