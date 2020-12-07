@@ -30,7 +30,6 @@ public class Projeto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    @JsonIgnore
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
