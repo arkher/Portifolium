@@ -28,7 +28,7 @@ public class Professor {
     @JsonIgnore
     private Long id;
 
-    @Column(name="codigo")
+    @Column(name="codigo", unique = true)
     private String codigo;
 
     @Column(name="nome")
