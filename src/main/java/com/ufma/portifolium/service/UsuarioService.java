@@ -40,11 +40,11 @@ public class UsuarioService {
         this.professorRepository = professorRepository;
     }
 
-    public boolean efetuarLogin(String codigoAcesso, String hashSenha){
+    public UsuarioDTO efetuarLogin(String codigoAcesso, String hashSenha){
         Optional<Usuario> usuario = usuarioRepository.findByCodigoAcesso(codigoAcesso);
         if(!usuario.isPresent()) throw new AutenticacaoException("Erro de Autenticação. Código de acesso não encontrado.");
         if(!usuario.get().getSenha().equals(hashSenha)) throw new AutenticacaoException("Erro de Autenticação. Senha incorreta.");
-        return true;
+        return getUsuario(usuario.get());
     }
 
     @Transactional
@@ -52,26 +52,14 @@ public class UsuarioService {
         verificarUsuario(usuario);
         
         Optional<TipoUsuario> tipoUsuario = tipoUsuarioRepository.findByDescricao(usuario.getTipoUsuario().getDescricao());
-        UsuarioDTO usuarioDTO;
         if(tipoUsuario.isPresent()){
             usuario.setTipoUsuario(tipoUsuario.get());
             Usuario salvo = usuarioRepository.save(usuario);
-            if(usuario.getTipoUsuario().getDescricao().equals("aluno")){
-                Optional<Aluno> aluno = alunoRepository.findByMatricula(usuario.getCodigoAcesso());
-                if(aluno.isPresent())
-                    return new UsuarioDTO(salvo, aluno.get().getId(), aluno.get().getNome());
-            } else if(usuario.getTipoUsuario().getDescricao().equals("professor")){
-                Optional<Professor> professor = professorRepository.findByCodigo(usuario.getCodigoAcesso());
-                if(professor.isPresent())
-                    return new UsuarioDTO(salvo, professor.get().getId(), professor.get().getNome());
-            }
+            return getUsuario(salvo);
         } 
         else{
             throw new UsuarioInvalidoException("Tipo de usuário inválido.");
         }
-        
-
-        return null;
     }
 
     public List<Usuario> recuperarUsuarios(){ return usuarioRepository.findAll(); }
@@ -83,6 +71,19 @@ public class UsuarioService {
                     .withStringMatcher(StringMatcher.CONTAINING)
         );
         return usuarioRepository.findAll(example);
+    }
+
+    private UsuarioDTO getUsuario(Usuario usuario){
+        if(usuario.getTipoUsuario().getDescricao().equals("aluno")){
+            Optional<Aluno> aluno = alunoRepository.findByMatricula(usuario.getCodigoAcesso());
+            if(aluno.isPresent())
+                return new UsuarioDTO(usuario, aluno.get().getId(), aluno.get().getNome());
+        } else if(usuario.getTipoUsuario().getDescricao().equals("professor")){
+            Optional<Professor> professor = professorRepository.findByCodigo(usuario.getCodigoAcesso());
+            if(professor.isPresent())
+                return new UsuarioDTO(usuario, professor.get().getId(), professor.get().getNome());
+        }
+        return null;
     }
 
     private void verificarUsuario(Usuario usuario){
