@@ -2,10 +2,15 @@ package com.ufma.portifolium.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.ufma.portifolium.model.dto.AlunoDTO;
 import com.ufma.portifolium.model.entities.Aluno;
+import com.ufma.portifolium.model.entities.Projeto;
+import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
 import com.ufma.portifolium.repository.AlunoRepository;
+import com.ufma.portifolium.repository.ProjetoRepository;
 import com.ufma.portifolium.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +24,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class AlunoService {
     
     AlunoRepository alunoRepository;
+    ProjetoRepository projetoRepository;
     
     @Autowired
-    public AlunoService(AlunoRepository alunoRepository){
+    public AlunoService(AlunoRepository alunoRepository, ProjetoRepository projetoRepository){
         this.alunoRepository = alunoRepository;
+        this.projetoRepository = projetoRepository;
     }
 
-    public List<Aluno> recuperarAlunos(){ return alunoRepository.findAll(); }
+    public List<AlunoDTO> recuperarAlunos(){ 
+        List<AlunoDTO> alunos = alunoRepository.findAllAlunos();
+        for(AlunoDTO a: alunos){
+            List<Tecnologia> tecnologias = projetoRepository.findByIdAluno(a.getId());
+            a.setTecnologias(tecnologias.stream().distinct().collect(Collectors.toList()));
+        }
+        return alunos; 
+    }
 
     public List<Aluno> buscar(Aluno filtro){
         Example<Aluno> example = Example.of(

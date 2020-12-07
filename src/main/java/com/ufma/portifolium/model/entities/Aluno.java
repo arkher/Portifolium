@@ -25,10 +25,9 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    @JsonIgnore
     private Long id;
 
-    @Column(name="matricula")
+    @Column(name="matricula", unique = true)
     private String matricula;
 
     @Column(name="nome")
