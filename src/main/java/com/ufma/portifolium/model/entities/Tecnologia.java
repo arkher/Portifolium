@@ -27,7 +27,6 @@ public class Tecnologia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    @JsonIgnore
     private Long id;
 
     @Column(name="descricao")
