@@ -58,7 +58,7 @@ public class Projeto {
     @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate alteradoEm;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "projeto_tecnologia",
         joinColumns = { @JoinColumn(name = "id_projeto") },
