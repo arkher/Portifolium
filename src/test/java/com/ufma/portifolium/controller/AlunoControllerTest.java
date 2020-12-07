@@ -3,9 +3,14 @@ package com.ufma.portifolium.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ufma.portifolium.model.dto.AlunoDTO;
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.service.AlunoService;
+import com.ufma.portifolium.service.ProjetoService;
 import com.ufma.portifolium.utils.AlunoFactory;
 
 import org.junit.jupiter.api.Test;
@@ -35,8 +40,14 @@ public class AlunoControllerTest {
     @MockBean
     AlunoService alunoService;
 
+    @MockBean
+    ProjetoService projetoService;
+
+    /* 
+        salvar
+    */
     @Test
-    public void deveSalvarAluno() throws Exception {
+    public void deveRetornarStatusCriado_QuandoSalvarComSucesso() throws Exception {
         // given
         Aluno recebido = AlunoFactory.buildALuno();
         Aluno salvo = AlunoFactory.buildALuno();
@@ -53,4 +64,27 @@ public class AlunoControllerTest {
 
         mvc.perform(request).andExpect(MockMvcResultMatchers.status().isCreated());
     }
+
+
+    /*
+        recuperar
+    */
+    @Test
+    public void deveRetornarStatusOk_QuandoHouveremAlunosCadastrados() throws Exception {
+        // given
+        Aluno a1 = AlunoFactory.buildALuno();
+        Aluno a2 = AlunoFactory.buildALuno();
+        List<AlunoDTO> alunos = new ArrayList<>();
+        alunos.add(new AlunoDTO(a1));
+        alunos.add(new AlunoDTO(a2));
+
+        // when
+        when(alunoService.recuperarAlunos()).thenReturn(alunos);
+
+        // then
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(API);
+
+        mvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    
 }
