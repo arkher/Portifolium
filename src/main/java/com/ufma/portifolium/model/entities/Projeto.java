@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import lombok.AllArgsConstructor;

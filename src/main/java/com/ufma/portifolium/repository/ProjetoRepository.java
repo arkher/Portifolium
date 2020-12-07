@@ -2,7 +2,6 @@ package com.ufma.portifolium.repository;
 
 import java.util.List;
 
-import com.ufma.portifolium.model.dto.AlunoDTO;
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Projeto;
 import com.ufma.portifolium.model.entities.Tecnologia;
@@ -17,7 +16,4 @@ public interface ProjetoRepository extends JpaRepository <Projeto, Long>{
     
     @Query("select p.tecnologias from Projeto p where p.aluno.id=:aluno")
     List<Tecnologia> findByIdAluno(@Param("aluno") Long idAluno);
-
-    // @Query("select t from Tecnologia t, Projeto p where t.")
-    // List<Tecnologia> findTecnologiasByIdALuno(@Param("idAluno") Long idAluno);
 }

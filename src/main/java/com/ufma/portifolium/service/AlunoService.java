@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.ufma.portifolium.model.dto.AlunoDTO;
 import com.ufma.portifolium.model.entities.Aluno;
-import com.ufma.portifolium.model.entities.Projeto;
 import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.model.exceptions.AlunoInvalidoException;
 import com.ufma.portifolium.repository.AlunoRepository;

@@ -34,7 +34,7 @@ public class ProfessorController {
     }
     
     @GetMapping
-    public ResponseEntity recuperarProfessorPorMatricula(@RequestParam("professor") String codigo){
+    public ResponseEntity recuperarProfessorPorCodigo(@RequestParam("professor") String codigo){
         try {
             Professor professor = professorService.recuperarPorCodigo(codigo);
             return new ResponseEntity(professor, HttpStatus.OK);

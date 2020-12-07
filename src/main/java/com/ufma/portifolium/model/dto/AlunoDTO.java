@@ -2,6 +2,7 @@ package com.ufma.portifolium.model.dto;
 
 import java.util.List;
 
+import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Tecnologia;
 
 import lombok.AllArgsConstructor;
@@ -26,5 +27,10 @@ public class AlunoDTO {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+    }
+
+    public AlunoDTO(Aluno aluno){
+        this.id = aluno.getId();
+        this.nome = aluno.getNome();
     }
 }
