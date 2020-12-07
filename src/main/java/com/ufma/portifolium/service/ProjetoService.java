@@ -68,8 +68,10 @@ public class ProjetoService {
   @Transactional
   public Projeto validar(ProjetoValidacaoDTO validado, Long id){
     Optional<Projeto> projeto = projetoRepository.findById(id);
-    projeto.get().setValidado(validado.getValidado());
-    if(projeto.isPresent()) return projetoRepository.save(projeto.get());
+    if(projeto.isPresent()){
+      projeto.get().setValidado(validado.getValidado());
+      return projetoRepository.save(projeto.get());
+    } 
     return null;
   }
 
@@ -78,10 +80,6 @@ public class ProjetoService {
       throw new ProjetoInvalidoException("Um Projeto válido deve ser informado.");
     if (projeto.getAluno() == null)
       throw new ProjetoInvalidoException("O campo aluno deve ser preenchido.");
-    // if (projeto.getDataInicio() == null)
-    //   throw new ProjetoInvalidoException("O campo dataInicio deve ser preenchido.");
-    // if (projeto.getDataFim() == null)
-    //   throw new ProjetoInvalidoException("O campo dataFim deve ser preenchido.");
     if (projeto.getDescricao() == null || projeto.getDescricao().equals(""))
       throw new ProjetoInvalidoException("O campo descricao deve ser preenchido.");
     if (projeto.getTecnologias() == null || projeto.getTecnologias().isEmpty())

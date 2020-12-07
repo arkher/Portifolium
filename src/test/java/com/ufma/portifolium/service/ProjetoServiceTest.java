@@ -1,8 +1,14 @@
 package com.ufma.portifolium.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Projeto;
 import com.ufma.portifolium.model.entities.Tecnologia;
 import com.ufma.portifolium.model.exceptions.ProjetoInvalidoException;
+import com.ufma.portifolium.repository.AlunoRepository;
 import com.ufma.portifolium.repository.ProjetoRepository;
 import com.ufma.portifolium.repository.TecnologiaRepository;
 import com.ufma.portifolium.utils.ProjetoFactory;
@@ -19,23 +25,29 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 public class ProjetoServiceTest {
-
+  @Autowired
   ProjetoService projetoService;
+
+  @Autowired
   ProjetoRepository projetoRepository;
+
+  @Autowired
   TecnologiaRepository tecnologiaRepository;
 
   @Autowired
-  public ProjetoServiceTest(ProjetoService projetoService, ProjetoRepository projetoRepository,
-      TecnologiaRepository tecnologiaRepository) {
-    this.projetoService = projetoService;
-    this.projetoRepository = projetoRepository;
-    this.tecnologiaRepository = tecnologiaRepository;
-  }
+  AlunoRepository alunoRepository;
 
   @Test
   public void deveSalvarProjeto() {
     Projeto projeto = ProjetoFactory.buildProjeto();
-
+    Aluno aluno = Aluno.builder().nome("RAIMUNDAO").matricula("123456").build();
+    List<Tecnologia> tecnologias = Arrays.asList(Tecnologia.builder()
+                        .descricao("descricao").build());
+    
+    projeto.setAluno(alunoRepository.save(aluno));
+    tecnologias.stream().forEach((x)->{x=tecnologiaRepository.save(x);});
+    projeto.setTecnologias(tecnologias);
+    
     Projeto salvo = projetoService.salvar(projeto);
     Tecnologia tProjeto = salvo.getTecnologias().get(0);
 
@@ -108,8 +120,16 @@ public class ProjetoServiceTest {
 
   @Test
   public void deveSalvarNovaTecnologiaSeNaoExistir() {
-    Projeto projeto = ProjetoFactory.buildProjeto();
 
+    Projeto projeto = ProjetoFactory.buildProjeto();
+    Aluno aluno = Aluno.builder().nome("RAIMUNDAO").matricula("123456").build();
+    List<Tecnologia> tecnologias = Arrays.asList(Tecnologia.builder()
+                        .descricao("descricao").build());
+    
+    projeto.setAluno(alunoRepository.save(aluno));
+    tecnologias.stream().forEach((x)->{x=tecnologiaRepository.save(x);});
+    projeto.setTecnologias(tecnologias);
+    
     Projeto salvo = projetoService.salvar(projeto);
     Tecnologia tProjeto = salvo.getTecnologias().get(0);
 
