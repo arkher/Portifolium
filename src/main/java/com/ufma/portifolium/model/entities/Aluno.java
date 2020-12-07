@@ -25,7 +25,7 @@ public class Aluno {
     @Column(name="id")
     private Long id;
 
-    @Column(name="matricula")
+    @Column(name="matricula", unique = true)
     private String matricula;
 
     @Column(name="nome")

@@ -11,7 +11,7 @@ public class UsuarioFactory {
     public static Usuario buildUsuarioAluno() {
         LocalDate data = LocalDate.now();
         TipoUsuario tipoUsuario = TipoUsuario.builder()
-                                            .descricao("Tipo usuario aluno teste")
+                                            .descricao("aluno")
                                             .build();
 
         Aluno aluno = AlunoFactory.buildALuno();
@@ -29,7 +29,7 @@ public class UsuarioFactory {
     public static Usuario buildUsuarioProfessor() {
         LocalDate data = LocalDate.now();
         TipoUsuario tipoUsuario = TipoUsuario.builder()
-                                            .descricao("Tipo usuario professor teste")
+                                            .descricao("Tipo usuario professor")
                                             .build();
 
         Professor professor = ProfessorFactory.buildProfessor();

@@ -3,9 +3,16 @@ package com.ufma.portifolium.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufma.portifolium.model.dto.UsuarioDTO;
+import com.ufma.portifolium.model.entities.Aluno;
+import com.ufma.portifolium.model.entities.Professor;
+import com.ufma.portifolium.model.entities.TipoUsuario;
 import com.ufma.portifolium.model.entities.Usuario;
 import com.ufma.portifolium.model.exceptions.AutenticacaoException;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
+import com.ufma.portifolium.repository.AlunoRepository;
+import com.ufma.portifolium.repository.ProfessorRepository;
+import com.ufma.portifolium.repository.TipoUsuarioRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.utils.Utils;
 
@@ -20,23 +27,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioService {
     
     UsuarioRepository usuarioRepository;
+    TipoUsuarioRepository tipoUsuarioRepository;
+    AlunoRepository alunoRepository;
+    ProfessorRepository professorRepository;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, TipoUsuarioRepository tipoUsuarioRepository,
+                            AlunoRepository alunoRepository, ProfessorRepository professorRepository){
         this.usuarioRepository = usuarioRepository;
+        this.tipoUsuarioRepository = tipoUsuarioRepository;
+        this.alunoRepository = alunoRepository;
+        this.professorRepository = professorRepository;
     }
 
-    public boolean efetuarLogin(String codigoAcesso, String hashSenha){
+    public UsuarioDTO efetuarLogin(String codigoAcesso, String hashSenha){
         Optional<Usuario> usuario = usuarioRepository.findByCodigoAcesso(codigoAcesso);
         if(!usuario.isPresent()) throw new AutenticacaoException("Erro de Autenticação. Código de acesso não encontrado.");
         if(!usuario.get().getSenha().equals(hashSenha)) throw new AutenticacaoException("Erro de Autenticação. Senha incorreta.");
-        return true;
+        return getUsuario(usuario.get());
     }
 
     @Transactional
-    public Usuario salvar(Usuario usuario){
+    public UsuarioDTO salvar(Usuario usuario){
         verificarUsuario(usuario);
-        return usuarioRepository.save(usuario);
+        
+        Optional<TipoUsuario> tipoUsuario = tipoUsuarioRepository.findByDescricao(usuario.getTipoUsuario().getDescricao());
+        if(tipoUsuario.isPresent()){
+            usuario.setTipoUsuario(tipoUsuario.get());
+            Usuario salvo = usuarioRepository.save(usuario);
+            return getUsuario(salvo);
+        } 
+        else{
+            throw new UsuarioInvalidoException("Tipo de usuário inválido.");
+        }
     }
 
     public List<Usuario> recuperarUsuarios(){ return usuarioRepository.findAll(); }
@@ -48,6 +71,19 @@ public class UsuarioService {
                     .withStringMatcher(StringMatcher.CONTAINING)
         );
         return usuarioRepository.findAll(example);
+    }
+
+    private UsuarioDTO getUsuario(Usuario usuario){
+        if(usuario.getTipoUsuario().getDescricao().equals("aluno")){
+            Optional<Aluno> aluno = alunoRepository.findByMatricula(usuario.getCodigoAcesso());
+            if(aluno.isPresent())
+                return new UsuarioDTO(usuario, aluno.get().getId(), aluno.get().getNome());
+        } else if(usuario.getTipoUsuario().getDescricao().equals("professor")){
+            Optional<Professor> professor = professorRepository.findByCodigo(usuario.getCodigoAcesso());
+            if(professor.isPresent())
+                return new UsuarioDTO(usuario, professor.get().getId(), professor.get().getNome());
+        }
+        return null;
     }
 
     private void verificarUsuario(Usuario usuario){

@@ -2,6 +2,8 @@ package com.ufma.portifolium.model.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +25,10 @@ public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @JsonIgnore
     private Long id;
 
-    @Column(name="codigo")
+    @Column(name="codigo", unique = true)
     private String codigo;
 
     @Column(name="nome")

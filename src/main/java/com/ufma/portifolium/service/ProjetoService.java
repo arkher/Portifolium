@@ -1,9 +1,11 @@
 package com.ufma.portifolium.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufma.portifolium.model.dto.ProjetoValidacaoDTO;
 import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Projeto;
 import com.ufma.portifolium.model.entities.Tecnologia;
@@ -58,20 +60,26 @@ public class ProjetoService {
   @Transactional
   public Projeto salvar(Projeto projeto) {
     verificarProjeto(projeto);
+    Optional<Aluno> aluno = alunoRepository.findById(projeto.getAluno().getId());
+    if(aluno.isPresent()) projeto.setAluno(aluno.get());
     return projetoRepository.save(projeto);
+  }
+
+  @Transactional
+  public Projeto validar(ProjetoValidacaoDTO validado, Long id){
+    Optional<Projeto> projeto = projetoRepository.findById(id);
+    if(projeto.isPresent()){
+      projeto.get().setValidado(validado.getValidado());
+      return projetoRepository.save(projeto.get());
+    } 
+    return null;
   }
 
   private void verificarProjeto(Projeto projeto) {
     if (projeto == null)
       throw new ProjetoInvalidoException("Um Projeto válido deve ser informado.");
-    if (projeto.getValidado() == null)
-      throw new ProjetoInvalidoException("O campo validado deve ser preenchido.");
     if (projeto.getAluno() == null)
       throw new ProjetoInvalidoException("O campo aluno deve ser preenchido.");
-    if (projeto.getDataInicio() == null)
-      throw new ProjetoInvalidoException("O campo dataInicio deve ser preenchido.");
-    if (projeto.getDataFim() == null)
-      throw new ProjetoInvalidoException("O campo dataFim deve ser preenchido.");
     if (projeto.getDescricao() == null || projeto.getDescricao().equals(""))
       throw new ProjetoInvalidoException("O campo descricao deve ser preenchido.");
     if (projeto.getTecnologias() == null || projeto.getTecnologias().isEmpty())
@@ -80,11 +88,17 @@ public class ProjetoService {
   }
 
   private void verificaTecnologias(Projeto projeto) {
+    List<Tecnologia> tecnologias = new ArrayList<>();
     for (Tecnologia t : projeto.getTecnologias()) {
       Optional<Tecnologia> tOptional = tecnologiaRepository.findByDescricao(t.getDescricao());
-      if (!tOptional.isPresent())
-        tecnologiaRepository.save(t);
+      if (!tOptional.isPresent()) {
+        tecnologias.add(tecnologiaRepository.save(t));
+      }
+      else {
+        tecnologias.add(tOptional.get());
+      }
     }
+    projeto.setTecnologias(tecnologias);
   }
 
   @Transactional

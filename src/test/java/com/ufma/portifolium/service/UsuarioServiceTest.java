@@ -1,9 +1,14 @@
 package com.ufma.portifolium.service;
 
+import com.ufma.portifolium.model.dto.UsuarioDTO;
+import com.ufma.portifolium.model.entities.Aluno;
 import com.ufma.portifolium.model.entities.Usuario;
+import com.ufma.portifolium.repository.AlunoRepository;
+import com.ufma.portifolium.repository.TipoUsuarioRepository;
 import com.ufma.portifolium.repository.UsuarioRepository;
 import com.ufma.portifolium.model.exceptions.AutenticacaoException;
 import com.ufma.portifolium.model.exceptions.UsuarioInvalidoException;
+import com.ufma.portifolium.utils.AlunoFactory;
 import com.ufma.portifolium.utils.UsuarioFactory;
 
 import org.junit.jupiter.api.Assertions;
@@ -23,22 +28,34 @@ public class UsuarioServiceTest {
 
     UsuarioRepository usuarioRepository;
 
+    TipoUsuarioRepository tipoUsuarioRepository;
+
+    AlunoRepository alunoRepository;
+
     @Autowired
-    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
+    public UsuarioServiceTest(UsuarioService usuarioService, UsuarioRepository usuarioRepository,
+                            TipoUsuarioRepository tipoUsuarioRepository,
+                            AlunoRepository alunoRepository ) {
         this.usuarioService = usuarioService;
         this.usuarioRepository = usuarioRepository;
+        this.tipoUsuarioRepository = tipoUsuarioRepository;
+        this.alunoRepository = alunoRepository;
     }
 
     @Test
     public void deveSalvarUsuarioAluno() {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
+        Aluno aluno = AlunoFactory.buildALuno();
+        
+        tipoUsuarioRepository.save(usuario.getTipoUsuario());
+        alunoRepository.save(aluno);
 
-        Usuario salvo = usuarioService.salvar(usuario);
+        UsuarioDTO salvo = usuarioService.salvar(usuario);
 
         Assertions.assertNotNull(salvo);
         Assertions.assertNotNull(salvo.getId());
 
-        usuarioRepository.delete(salvo);
+        usuarioRepository.delete(usuario);
     }
 
     @Test
@@ -94,9 +111,9 @@ public class UsuarioServiceTest {
         Usuario usuario = UsuarioFactory.buildUsuarioAluno();
 
         Usuario salvo = usuarioRepository.save(usuario);
-        boolean resposta = usuarioService.efetuarLogin(salvo.getCodigoAcesso(), salvo.getSenha());
+        UsuarioDTO logado = usuarioService.efetuarLogin(salvo.getCodigoAcesso(), salvo.getSenha());
 
-        Assertions.assertTrue(resposta);
+        Assertions.assertNotNull(logado.getId());
 
         usuarioRepository.delete(salvo);
     }

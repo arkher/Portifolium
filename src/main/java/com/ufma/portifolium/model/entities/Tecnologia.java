@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +32,7 @@ public class Tecnologia {
     @Column(name="descricao")
     private String descricao;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tecnologias")
     private List<Projeto> projetos;
 

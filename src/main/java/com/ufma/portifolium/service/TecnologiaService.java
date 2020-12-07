@@ -19,7 +19,7 @@ public class TecnologiaService {
   @Autowired
   public TecnologiaService(TecnologiaRepository tecnologiaRepository) { this.tecnologiaRepository = tecnologiaRepository; }
 
-  public List<Tecnologia> recuperarAlunos(){ return tecnologiaRepository.findAll(); }
+  public List<Tecnologia> recuperarTecnologias(){ return tecnologiaRepository.findAll(); }
 
   public Tecnologia recuperarPorDescricao(String descricao) {
     Optional<Tecnologia> tecnologia = tecnologiaRepository.findByDescricao(descricao);
